@@ -1,7 +1,7 @@
-From 07d7ebe2386eb428cc703d6942348ef2a9161021 Mon Sep 17 00:00:00 2001
+From 8e01e60dc97dfee9c92d7b09a6c8ba9ec03857af Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Tue, 31 Mar 2020 11:51:02 -0700
-Subject: [PATCH 21/21] cmake: Disable format-overflow warning as error
+Subject: [PATCH 21/24] cmake: Disable format-overflow warning as error
 
 gcc10 complains about a check which could potentially be null
 
@@ -20,7 +20,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/host_applications/linux/libs/bcm_host/CMakeLists.txt b/host_applications/linux/libs/bcm_host/CMakeLists.txt
-index a863cb6..f358135 100644
+index 2f4beb9..7a4ab06 100644
 --- a/host_applications/linux/libs/bcm_host/CMakeLists.txt
 +++ b/host_applications/linux/libs/bcm_host/CMakeLists.txt
 @@ -3,7 +3,7 @@ if (WIN32)

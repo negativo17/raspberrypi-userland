@@ -1,7 +1,7 @@
-From fa3d0fd2998e16dfa6e32d2dc1c0af9096a67f70 Mon Sep 17 00:00:00 2001
+From 1a70374d3ddb6c38c684a40db3260fde3077c7c2 Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Sun, 15 Jul 2018 00:48:38 -0700
-Subject: [PATCH 18/21] Add EGL_IMG_context_priority related defines
+Subject: [PATCH 18/24] Add EGL_IMG_context_priority related defines
 
 These defines are needed for compiling weston 4.x
 taken from Khronos headers

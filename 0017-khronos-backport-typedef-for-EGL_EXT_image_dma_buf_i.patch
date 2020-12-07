@@ -1,7 +1,7 @@
-From 244409430c67d01c292b14fdbed11052e456bf79 Mon Sep 17 00:00:00 2001
+From 8f0c27361b2dcdea139933bc66dbf776f38f2675 Mon Sep 17 00:00:00 2001
 From: Hugo Hromic <hhromic@gmail.com>
 Date: Sun, 13 May 2018 10:49:04 +0100
-Subject: [PATCH 17/21] khronos: backport typedef for
+Subject: [PATCH 17/24] khronos: backport typedef for
  EGL_EXT_image_dma_buf_import
 
 The `gstreamer1.0-plugins-base` package version `1.14` uses `EGL_EXT_image_dma_buf_import`, which

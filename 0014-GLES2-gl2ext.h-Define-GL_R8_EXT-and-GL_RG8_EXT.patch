@@ -1,7 +1,7 @@
-From c569241fc530439ec17188c148a15ea4f68d244d Mon Sep 17 00:00:00 2001
+From 2ab56d60cd7bd38678b0f1b137e8caf205901cbe Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Wed, 10 May 2017 06:39:34 +0000
-Subject: [PATCH 14/21] GLES2/gl2ext.h: Define GL_R8_EXT and GL_RG8_EXT
+Subject: [PATCH 14/24] GLES2/gl2ext.h: Define GL_R8_EXT and GL_RG8_EXT
 
 weston code uses these defines
 Upstream-Status: Pending

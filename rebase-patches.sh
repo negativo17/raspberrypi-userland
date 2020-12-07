@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# To rebas Wayland and other patches:
+# To rebase Wayland and other patches:
 
 # Get fork:
 git clone https://github.com/kraj/userland

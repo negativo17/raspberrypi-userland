@@ -1,7 +1,7 @@
-From f193e1a8c0329b3a5cf3a2ce85938fe8d533deeb Mon Sep 17 00:00:00 2001
+From ed7879f7d64411add806219764c76763c1f2d6a5 Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Sat, 6 Feb 2016 11:11:41 -0800
-Subject: [PATCH 07/21] initialize front back wayland buffers
+Subject: [PATCH 07/24] initialize front back wayland buffers
 
 origins from metrological wayland support
 

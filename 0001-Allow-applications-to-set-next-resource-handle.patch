@@ -1,7 +1,7 @@
-From 8ef5766c473d572da32eafd98aa5b97e37c7109c Mon Sep 17 00:00:00 2001
+From 76c1f0ba039e7da91a16ed8261813a26ca1b1d20 Mon Sep 17 00:00:00 2001
 From: Dom Cobley <dc4@broadcom.com>
 Date: Tue, 9 Jul 2013 09:26:26 -0400
-Subject: [PATCH 01/21] Allow applications to set next resource handle
+Subject: [PATCH 01/24] Allow applications to set next resource handle
 
 This patch adds provisions in userland to
 let apps callers set the next rendereing dispmanx resource.

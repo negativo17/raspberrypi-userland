@@ -1,16 +1,17 @@
-%global commit0 cb852cdd2d01268e0a8c939847604b3aad49c759
-%global date 20200509
+%global commit0 093b30bbc2fd083d68cc3ee07e6e555c6e592d11
+%global date 20201130
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           raspberrypi-userland
 Version:        1.0.0
-Release:        1.%{date}git%{shortcommit0}%{?dist}
+Release:        2.%{date}git%{shortcommit0}%{?dist}
 Summary:        ARM side libraries for interfacing to Raspberry Pi GPU
 License:        BSD
 URL:            https://www.raspberrypi.org/
+ExclusiveArch:  armv7hl aarch64
 
 Source0:        https://github.com/raspberrypi/userland/archive/%{commit0}/userland-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
-Source1:        10-raspberry.rules
+Source1:        10-vchiq.rules
 
 Patch0:         0001-Allow-applications-to-set-next-resource-handle.patch
 Patch1:         0002-wayland-Add-support-for-the-Wayland-winsys.patch
@@ -39,6 +40,8 @@ BuildRequires:  coreutils
 BuildRequires:  gcc-c++
 BuildRequires:  git
 BuildRequires:  libfdt-devel
+BuildRequires:  pkgconfig(wayland-client)
+BuildRequires:  pkgconfig(wayland-server)
 BuildRequires:  systemd
 
 %description
@@ -79,8 +82,10 @@ pushd build
 %cmake \
   -DARM64=ON \
   -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_C_FLAGS:STRING="%{optflags}" \
   -DBUILD_SHARED_LIBS=ON \
   -DBUILD_STATIC_LIBS=OFF \
+  -DBUILD_WAYLAND=TRUE \
   -DVMCS_INSTALL_PREFIX=%{_prefix} \
   ..
 %make_build
@@ -93,29 +98,24 @@ popd
 
 find %{buildroot} -name '*.a' -delete
 
-%ifarch aarch64
-
 # Move libraries to the correct place
 mv %{buildroot}%{_prefix}/lib %{buildroot}%{_libdir}
 
 sed -i -e 's|/lib|/%{_lib}|g' %{buildroot}%{_libdir}/pkgconfig/*.pc
 
-%endif
-
 # Move headers in a subfolder
-
 mkdir %{buildroot}/vc
 mv %{buildroot}%{_includedir}/* %{buildroot}/vc
 mv %{buildroot}/vc %{buildroot}%{_includedir}/
-
 sed -i -e 's|/include|/include/vc|g' %{buildroot}%{_libdir}/pkgconfig/*.pc
 
 # udev rule for GPU access
-install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_udevrulesdir}/10-raspberry.rules
+install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_udevrulesdir}/10-vchiq.rules
 
 %ldconfig_scriptlets libs
 
 %files
+%ifarch armv7hl
 %{_bindir}/containers_check_frame_int
 %{_bindir}/containers_datagram_receiver
 %{_bindir}/containers_datagram_sender
@@ -127,52 +127,68 @@ install -D -p -m 0644 %{SOURCE1} %{buildroot}%{_udevrulesdir}/10-raspberry.rules
 %{_bindir}/containers_test_bits
 %{_bindir}/containers_test_uri
 %{_bindir}/containers_uri_pipe
-%{_bindir}/dtmerge
-%{_bindir}/dtoverlay
-%{_bindir}/dtoverlay-post
-%{_bindir}/dtoverlay-pre
-%{_bindir}/dtparam
 %{_bindir}/mmal_vc_diag
 %{_bindir}/raspistill
 %{_bindir}/raspivid
 %{_bindir}/raspividyuv
 %{_bindir}/raspiyuv
+%{_bindir}/vcsmem
+%endif
+%{_bindir}/dtmerge
+%{_bindir}/dtoverlay
+%{_bindir}/dtoverlay-post
+%{_bindir}/dtoverlay-pre
+%{_bindir}/dtparam
 %{_bindir}/tvservice
 %{_bindir}/vcgencmd
 %{_bindir}/vchiq_test
 %{_bindir}/vcmailbox
-%{_udevrulesdir}/10-raspberry.rules
+%{_udevrulesdir}/10-vchiq.rules
 
 %files libs
 %license LICENCE
 %{_libdir}/libbcm_host.so
-%{_libdir}/libcontainers.so
 %{_libdir}/libdebug_sym.so
 %{_libdir}/libdtovl.so
-%{_libdir}/libmmal_components.so
-%{_libdir}/libmmal_core.so
-%{_libdir}/libmmal.so
-%{_libdir}/libmmal_util.so
-%{_libdir}/libmmal_vc_client.so
 %{_libdir}/libvchiq_arm.so
 %{_libdir}/libvchostif.so
 %{_libdir}/libvcos.so
+%ifarch armv7hl
+%{_libdir}/libEGL.so
+%{_libdir}/libGLESv2.so
+%{_libdir}/libOpenVG.so
+%{_libdir}/libWFC.so
+%{_libdir}/libbrcmEGL.so
+%{_libdir}/libbrcmGLESv2.so
+%{_libdir}/libbrcmOpenVG.so
+%{_libdir}/libbrcmWFC.so
+%{_libdir}/libcontainers.so
+%{_libdir}/libmmal.so
+%{_libdir}/libmmal_components.so
+%{_libdir}/libmmal_core.so
+%{_libdir}/libmmal_util.so
+%{_libdir}/libmmal_vc_client.so
+%{_libdir}/libopenmaxil.so
 %{_libdir}/libvcsm.so
-%{_libdir}/plugins
+%{_libdir}/plugins/*.so
+%endif
 
 %files devel
 %{_includedir}/vc
-%{_libdir}/pkgconfig
 %{_libdir}/pkgconfig/bcm_host.pc
 %{_libdir}/pkgconfig/brcmegl.pc
 %{_libdir}/pkgconfig/brcmglesv2.pc
 %{_libdir}/pkgconfig/brcmvg.pc
 %{_libdir}/pkgconfig/mmal.pc
+%{_libdir}/pkgconfig/openmaxil.pc
 %{_libdir}/pkgconfig/vcsm.pc
 
 %files examples
 %{_usrsrc}/hello_pi
 
 %changelog
+* Mon Dec 07 2020 Simone Caronni <negativo17@gmail.com> - 1.0.0-2.20201130git093b30b
+- Update to latest snapshot.
+
 * Tue May 12 2020 Simone Caronni <negativo17@gmail.com> - 1.0.0-1.20200509gitcb852cd
 - First build.

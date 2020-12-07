@@ -1,0 +1,2 @@
+# Console permission on the Raspberry GPU
+SUBSYSTEMS=="vchiq", MODE="0660", TAG+="uaccess"

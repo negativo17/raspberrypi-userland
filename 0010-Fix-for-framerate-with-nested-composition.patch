@@ -1,7 +1,7 @@
-From 9dc7a3bb21b0b756b0cae359f4c4d3ccbcec9844 Mon Sep 17 00:00:00 2001
+From e2625477a702474bcad40b0e76c9c01b43fac321 Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Tue, 29 Mar 2016 20:38:30 -0700
-Subject: [PATCH 10/21] Fix for framerate with nested composition
+Subject: [PATCH 10/24] Fix for framerate with nested composition
 
 frame rate appears irregular and lower than expected when using nested composition.
 

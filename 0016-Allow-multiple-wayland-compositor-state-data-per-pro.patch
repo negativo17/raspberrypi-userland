@@ -1,7 +1,7 @@
-From f1f76f6181f10c927968595d679eaa6eb09a91af Mon Sep 17 00:00:00 2001
+From 87a1db0497bfab150ffbf24382b3a2eddef0533e Mon Sep 17 00:00:00 2001
 From: Jeff Wannamaker <jeff_wannamaker@cable.comcast.com>
 Date: Sat, 27 Jan 2018 12:28:31 -0500
-Subject: [PATCH 16/21] Allow multiple wayland compositor state data per
+Subject: [PATCH 16/24] Allow multiple wayland compositor state data per
  process
 
 When eglBindWaylandDisplayWL is called store the wl_global

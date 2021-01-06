@@ -24,4 +24,5 @@ git format-patch ${UPSTREAM_COMMIT_ID}..HEAD
 rm -f ../*.patch
 mv *.patch ..
 
+cd ..
 rm -fr userland

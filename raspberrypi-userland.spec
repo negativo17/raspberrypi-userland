@@ -10,8 +10,11 @@ License:        BSD
 URL:            https://www.raspberrypi.org/
 ExclusiveArch:  armv7hl aarch64
 
-Source0:        https://github.com/raspberrypi/userland/archive/%{commit0}/userland-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source0:        %{name}-%{shortcommit0}.tar.xz
 Source1:        10-vchiq.rules
+
+Source2:        %{name}-snapshot.sh
+Source3:        %{name}-rebase-wayland.sh
 
 Patch0:         0001-Allow-applications-to-set-next-resource-handle.patch
 Patch1:         0002-wayland-Add-support-for-the-Wayland-winsys.patch
@@ -34,9 +37,13 @@ Patch17:        0018-Add-EGL_IMG_context_priority-related-defines.patch
 Patch18:        0019-libfdt-Undefine-__wordsize-if-already-defined.patch
 Patch19:        0020-openmaxil-add-pkg-config-file.patch
 Patch20:        0021-cmake-Disable-format-overflow-warning-as-error.patch
+Patch21:        0022-all-host_applications-remove-non-existent-projects.patch
+Patch22:        0023-hello_pi-optionally-build-wayland-specific-app.patch
+Patch23:        0024-userland-Sync-needed-defines-for-weston-build.patch
 
 BuildRequires:  cmake
 BuildRequires:  coreutils
+BuildRequires:  gcc
 BuildRequires:  gcc-c++
 BuildRequires:  git
 BuildRequires:  libfdt-devel
@@ -69,7 +76,7 @@ Summary:        Source code examples for Raspberry Pi
 Source code for examples using the Raspberry Pi libraries.
 
 %prep
-%autosetup -p1 -n userland-%{commit0}
+%autosetup -p1 -n userland
 
 # Use system device tree library
 rm -fr opensrc/helpers/libfdt
@@ -80,7 +87,9 @@ sed -i -e '/add_subdirectory.*libfdt/d' CMakeLists.txt
 mkdir build
 pushd build
 %cmake \
+%ifarch aarch64
   -DARM64=ON \
+%endif
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_C_FLAGS:STRING="%{optflags}" \
   -DBUILD_SHARED_LIBS=ON \

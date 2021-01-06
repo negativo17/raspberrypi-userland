@@ -27,5 +27,5 @@ index f4608be..5e83a27 100644
  #define FDT_FORCE __attribute__((force))
  #define FDT_BITWISE __attribute__((bitwise))
 -- 
-2.26.2
+2.29.2
 

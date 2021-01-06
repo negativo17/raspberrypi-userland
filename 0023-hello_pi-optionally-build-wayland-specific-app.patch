@@ -28,5 +28,5 @@ index 2849fad..7de3265 100644
  if(BUILD_FONT)
  set(VGFONT_SRCS libs/vgfont/font.c libs/vgfont/vgft.c libs/vgfont/graphics.c)
 -- 
-2.26.2
+2.29.2
 
